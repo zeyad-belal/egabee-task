@@ -104,7 +104,8 @@ export default function Home() {
   
   return (
     <main className="p-4 bg-main h-[100vh] flex flex-col justify-center items-center gap-12">
-
+      
+      {/* ----------------------------------charts-----------------------------------*/}
       <div className="p-4 rounded shadow flex justify-center items-center w-screen ">
         {selectedChart === "line" && (
           <ResponsiveContainer width="70%" height={300} >
