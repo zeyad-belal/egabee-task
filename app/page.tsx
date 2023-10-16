@@ -107,8 +107,8 @@ export default function Home() {
 
       <div className="p-4 rounded shadow flex justify-center items-center w-screen ">
         {selectedChart === "line" && (
-          <ResponsiveContainer width="70%" height={400}>
-            <LineChart  data={productsData[selectedProduct].lineChartData} >
+          <ResponsiveContainer width="70%" height={300} >
+            <LineChart   data={productsData[selectedProduct].lineChartData} >
               <Line type="monotone" dataKey="uv" stroke="#fecb0b" />
               <CartesianGrid stroke="#ccc" />
               <XAxis dataKey="name" />
