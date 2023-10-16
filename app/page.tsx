@@ -117,7 +117,7 @@ export default function Home() {
           </ResponsiveContainer>
         )}
         {selectedChart === "bar" && (
-          <ResponsiveContainer width="70%" height={400}>
+          <ResponsiveContainer width="70%" height={300}>
             <BarChart  data={productsData[selectedProduct].barChartData}>
               <Bar dataKey="uv" fill="#fecb0b" />
               <CartesianGrid stroke="#ccc" />
@@ -127,7 +127,7 @@ export default function Home() {
           </ResponsiveContainer>
         )}
         {selectedChart === "pie" && (
-          <ResponsiveContainer width="70%" height={400}>
+          <ResponsiveContainer width="70%" height={300}>
             <PieChart >
               <Pie data={productsData[selectedProduct].pieChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#fecb0b" label />
             </PieChart>
