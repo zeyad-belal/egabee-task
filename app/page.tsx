@@ -1,113 +1,181 @@
-import Image from 'next/image'
+"use client"
+import { SetStateAction, useState } from "react";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, BarChart, PieChart, Pie, Bar, ResponsiveContainer } from "recharts";
 
 export default function Home() {
+  // dummy data for different types of charts
+  const productsData = {
+    "Product A": {
+      lineChartData: [
+        { name: "A", uv: 400, pv: 1200, amt: 1200 },
+        { name: "B", uv: 200, pv: 2400, amt: 2400 },
+        { name: "C", uv: 700, pv: 3700, amt: 3700 },
+        { name: "D", uv: 300, pv: 4200, amt: 4200 },
+      ],
+      barChartData: [
+        { name: "A", uv: 400 },
+        { name: "B", uv: 200 },
+        { name: "C", uv: 700 },
+        { name: "D", uv: 300 },
+      ],
+      pieChartData: [
+        { name: "A", value: 400 },
+        { name: "B", value: 200 },
+        { name: "C", value: 700 },
+        { name: "D", value: 300 },
+      ],
+    },
+    "Product B": {
+      lineChartData: [
+        { name: "A", uv: 800, pv: 2200, amt: 2200 },
+        { name: "B", uv: 400, pv: 3400, amt: 3400 },
+        { name: "C", uv: 900, pv: 4700, amt: 4700 },
+        { name: "D", uv: 500, pv: 5200, amt: 5200 },
+      ],
+      barChartData: [
+        { name: "A", uv: 800 },
+        { name: "B", uv: 400 },
+        { name: "C", uv: 900 },
+        { name: "D", uv: 500 },
+      ],
+      pieChartData: [
+        { name: "A", value: 800 },
+        { name: "B", value: 400 },
+        { name: "C", value: 900 },
+        { name: "D", value: 500 },
+      ],
+    },
+    "Product C": {
+      lineChartData: [
+        { name: "A", uv: 600, pv: 1600, amt: 1600 },
+        { name: "B", uv: 300, pv: 2800, amt: 2800 },
+        { name: "C", uv: 800, pv: 3900, amt: 3900 },
+        { name: "D", uv: 400, pv: 4200, amt: 4200 },
+      ],
+      barChartData: [
+        { name: "A", uv: 600 },
+        { name: "B", uv: 300 },
+        { name: "C", uv: 800 },
+        { name: "D", uv: 400 },
+      ],
+      pieChartData: [
+        { name: "A", value: 600 },
+        { name: "B", value: 300 },
+        { name: "C", value: 800 },
+        { name: "D", value: 400 },
+      ],
+    },
+    "Product D": {
+      lineChartData: [
+        { name: "A", uv: 1000, pv: 3200, amt: 3200 },
+        { name: "B", uv: 500, pv: 4400, amt: 4400 },
+        { name: "C", uv: 1200, pv: 5700, amt: 5700 },
+        { name: "D", uv: 600, pv: 6200, amt: 6200 },
+      ],
+      barChartData: [
+        { name: "A", uv: 1000 },
+        { name: "B", uv: 500 },
+        { name: "C", uv: 1200 },
+        { name: "D", uv: 600 },
+      ],
+      pieChartData: [
+        { name: "A", value: 1000 },
+        { name: "B", value: 500 },
+        { name: "C", value: 1200 },
+        { name: "D", value: 600 },
+      ],
+    },
+  };
+
+
+  const [selectedChart, setSelectedChart] = useState("line");
+  const [selectedProduct, setSelectedProduct] = useState<keyof typeof productsData>("Product A");
+
+
+  
+  const handleChartChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSelectedChart(event.target.value);
+  };
+
+  const handleProductChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedProduct(event.target.value as keyof typeof productsData);
+  };
+  
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="p-4 bg-main h-[100vh] flex flex-col justify-center items-center gap-12">
+
+      <div className="p-4 rounded shadow flex justify-center items-center w-screen ">
+        {selectedChart === "line" && (
+          <ResponsiveContainer width="70%" height={400}>
+            <LineChart  data={productsData[selectedProduct].lineChartData} >
+              <Line type="monotone" dataKey="uv" stroke="#fecb0b" />
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="name" />
+              <YAxis />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+        {selectedChart === "bar" && (
+          <ResponsiveContainer width="70%" height={400}>
+            <BarChart  data={productsData[selectedProduct].barChartData}>
+              <Bar dataKey="uv" fill="#fecb0b" />
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="name" />
+              <YAxis />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+        {selectedChart === "pie" && (
+          <ResponsiveContainer width="70%" height={400}>
+            <PieChart >
+              <Pie data={productsData[selectedProduct].pieChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#fecb0b" label />
+            </PieChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+
+      {/* ----------------------------select boxes -----------------------------------*/}
+      <div className="flex justify-between gap-12 min-w-[40%] ">
+
+        {/* --------------------------select product----------------------------------*/}
+        <div className="mb-4 flex  flex-col gap-3">
+          <label htmlFor="product" className="mr-2 text-text1 text-sm">
+            Select Product:
+          </label>
+          <select
+            id="product"
+            className="p-2 rounded focus:outline-none bg-secondary text-text3 text-sm "
+            value={selectedProduct}
+            onChange={handleProductChange}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            {Object.keys(productsData).map((product) => (
+              <option key={product} value={product} >
+                {product}
+              </option>
+            ))}
+          </select>
         </div>
+
+        {/* -------------------------select chart type--------------------------------*/}
+        <div className="mb-4 flex  flex-col gap-3">
+          <label htmlFor="chartType" className="mr-2 text-text1 text-sm">
+            Select Chart Type:
+          </label>
+          <select
+            id="chartType"
+            className="p-2  rounded focus:outline-none  bg-secondary text-text3"
+            value={selectedChart}
+            onChange={handleChartChange}
+          >
+            <option value="line">Line Chart</option>
+            <option value="bar">Bar Chart</option>
+            <option value="pie">Pie Chart</option>
+          </select>
+        </div>
+
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }
